@@ -29,7 +29,7 @@ public class UpperDivisionTranscriptCompleteAuditBean implements Serializable {
 	private Long sr;
 	
 	@Column(name="bronco_id")
-	private Long broncoId;
+	private String broncoId;
 
 	@Temporal(TemporalType.DATE)
 	@Column(name="date_start", nullable = false, updatable = false)
@@ -65,14 +65,14 @@ public class UpperDivisionTranscriptCompleteAuditBean implements Serializable {
 	/**
 	 * @return the broncoId
 	 */
-	public Long getBroncoId() {
+	public String getBroncoId() {
 		return broncoId;
 	}
 
 	/**
 	 * @param broncoId the broncoId to set
 	 */
-	public void setBroncoId(Long broncoId) {
+	public void setBroncoId(String broncoId) {
 		this.broncoId = broncoId;
 	}
 

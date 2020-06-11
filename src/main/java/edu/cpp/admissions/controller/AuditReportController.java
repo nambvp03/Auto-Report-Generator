@@ -3,16 +3,13 @@ package edu.cpp.admissions.controller;
 import java.util.HashMap;
 import java.util.Map;
 
+import edu.cpp.admissions.util.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import edu.cpp.admissions.data.UpperDivisionTransferCompleteAuditRepo;
-import edu.cpp.admissions.util.AuditReportEmailUtil;
-import edu.cpp.admissions.util.FirstTimeFreshmenAuditReaderUtil;
-import edu.cpp.admissions.util.UpperDivisionTransferAuditReaderUtil;
-import edu.cpp.admissions.util.UpperDivisionTransferCompleteAuditReaderUtil;
 
 @RestController
 public class AuditReportController {
@@ -28,6 +25,9 @@ public class AuditReportController {
 	
 	@Autowired
 	FirstTimeFreshmenAuditReaderUtil firstTimeFreshmenAuditReaderUtil;
+
+	@Autowired
+	StatusReportUtil statusReportUtil;
 
 	@RequestMapping(value = "/admissions/statuscheck", method = RequestMethod.GET)
 	String statusCheck() {
@@ -85,6 +85,23 @@ public class AuditReportController {
 		try {
 			//upperDivisionTransferAuditReaderUtil.readCsvFileAndStore();
 			emailUtil.getDataAndPrepareForEmail();
+			response.put("success", "Success msg");
+			response.put("message", "Audit report generated");
+		} catch (Exception e) {
+			e.printStackTrace();
+			response.put("success", false);
+			response.put("message", e.getMessage());
+		}
+		return response;
+	}
+
+
+	@RequestMapping(value = "/admissions/statusReport", method = RequestMethod.GET)
+	Map<String, Object> generateStatusAuditReport() {
+		Map<String, Object> response = new HashMap<String, Object>();
+		try {
+			//upperDivisionTransferAuditReaderUtil.readCsvFileAndStore();
+			statusReportUtil.readCsvFileAndStore();
 			response.put("success", "Success msg");
 			response.put("message", "Audit report generated");
 		} catch (Exception e) {

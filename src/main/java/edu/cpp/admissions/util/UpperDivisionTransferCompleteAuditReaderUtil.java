@@ -37,7 +37,7 @@ public class UpperDivisionTransferCompleteAuditReaderUtil {
 		cal.add( Calendar.DAY_OF_WEEK, -(cal.get(Calendar.DAY_OF_WEEK)));
 		Date lastWeekSaturdayDate = cal.getTime();
 		
-		Path pathToFile = Paths.get("C:\\Users\\Dell G5\\Desktop\\UDT_FINAL_DATE.csv");
+		Path pathToFile = Paths.get("/Users/jayavardhanpatil/projects/Admission_Enrolment/AEP_Docs/OnBase Worksheets UDT_20200608.csv");
 		BufferedReader br = Files.newBufferedReader(pathToFile, StandardCharsets.UTF_8);
 		// skip header line
 		String line = br.readLine();
@@ -47,29 +47,33 @@ public class UpperDivisionTransferCompleteAuditReaderUtil {
 			String[] row = line.split(",(?=(?:[^\"]*\"[^\"]*\")*[^\"]*$)", -1);
 			
 			UpperDivisionTranscriptCompleteAuditBean auditCompleteBean = new UpperDivisionTranscriptCompleteAuditBean();
-			auditCompleteBean.setBroncoId(Long.parseLong(row[1].substring(1, row[1].length()-1)));
-			if(!"".equals(row[27])) {
-				auditCompleteBean.setProcessor(row[27].substring(1, row[27].length()-1));
-			}
-			if(!"".equals(row[28])) {
-				auditCompleteBean.setDateStart(new SimpleDateFormat("yyyy-MM-dd").parse(row[28].substring(1, row[28].length()-1)));
-			}
-			auditCompleteBean.setFinalDate(new SimpleDateFormat("yyyy-MM-dd").parse(row[32].substring(1, row[32].length()-1)));
-			auditCompleteBean.setStatus(row[40].substring(1, row[40].length()-1));
-			auditCompleteBean.setWam(row[44].substring(1, row[44].length()-1));
-			
+			auditCompleteBean.setBroncoId(row[1]);
 
-			if(null != auditCompleteBean.getFinalDate() && !lastWeekSaturdayDate.before(auditCompleteBean.getFinalDate())) {
-				auditCompleteList.add(auditCompleteBean);
-				if("".equals(row[28])) {
-					UpperDivisionTranscriptAuditBean auditBean = new UpperDivisionTranscriptAuditBean();
-					auditBean.setBroncoId(auditCompleteBean.getBroncoId());
-					auditBean.setProcessor(auditCompleteBean.getWam());
-					auditBean.setDateStart(auditCompleteBean.getFinalDate());
-					auditBean.setFinalDate(auditCompleteBean.getFinalDate());
-					auditBean.setWam(auditCompleteBean.getWam());
-					auditBean.setStatus(auditCompleteBean.getStatus());
-					auditList.add(auditBean);
+			if(!row[32].equals("")) {
+				if (!"".equals(row[27])) {
+					auditCompleteBean.setProcessor(row[27]);
+				}
+				if (!"".equals(row[28])) {
+					auditCompleteBean.setDateStart(new SimpleDateFormat("yyyy-MM-dd").parse(row[28]));
+				}
+
+				auditCompleteBean.setFinalDate(new SimpleDateFormat("yyyy-MM-dd").parse(row[32]));
+				auditCompleteBean.setStatus(row[40]);
+				auditCompleteBean.setWam(row[44]);
+
+
+				if (null != auditCompleteBean.getFinalDate() && !lastWeekSaturdayDate.before(auditCompleteBean.getFinalDate())) {
+					auditCompleteList.add(auditCompleteBean);
+					if ("".equals(row[28])) {
+						UpperDivisionTranscriptAuditBean auditBean = new UpperDivisionTranscriptAuditBean();
+						auditBean.setBroncoId(auditCompleteBean.getBroncoId());
+						auditBean.setProcessor(auditCompleteBean.getWam());
+						auditBean.setDateStart(auditCompleteBean.getFinalDate());
+						auditBean.setFinalDate(auditCompleteBean.getFinalDate());
+						auditBean.setWam(auditCompleteBean.getWam());
+						auditBean.setStatus(auditCompleteBean.getStatus());
+						auditList.add(auditBean);
+					}
 				}
 			}
 			

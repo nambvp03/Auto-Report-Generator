@@ -32,33 +32,41 @@ public class UpperDivisionTransferAuditReaderUtil {
 		//cal.add( Calendar.DAY_OF_WEEK, -(cal.get(Calendar.DAY_OF_WEEK)+7));
 		Date lastWeekSaturdayDate = cal.getTime();
 		
-		Path pathToFile = Paths.get("C:\\Users\\Dell G5\\Desktop\\UDT_DATE_START.csv");
+		Path pathToFile = Paths.get("/Users/jayavardhanpatil/projects/Admission_Enrolment/AEP_Docs/OnBase Worksheets UDT_20200608.csv");
 		BufferedReader br = Files.newBufferedReader(pathToFile, StandardCharsets.UTF_8);
-		// skip header line
+		//skip header line
 		String line = br.readLine();
 		line = br.readLine();
+		//line = br.readLine();
 
 		while (line != null) {
 			String[] row = line.split(",(?=(?:[^\"]*\"[^\"]*\")*[^\"]*$)", -1);
 			
 			UpperDivisionTranscriptAuditBean auditBean = new UpperDivisionTranscriptAuditBean();
-			auditBean.setBroncoId(Long.parseLong(row[1].substring(1, row[1].length()-1)));
-			auditBean.setProcessor(row[27].substring(1, row[27].length()-1));
-			auditBean.setDateStart(new SimpleDateFormat("yyyy-MM-dd").parse(row[28].substring(1, row[28].length()-1)));
-			if(!"".equals(row[32])) {
-				//System.out.println(row[32]);
-				auditBean.setFinalDate(new SimpleDateFormat("yyyy-MM-dd").parse(row[32].substring(1, row[32].length()-1)));
-			}
-			auditBean.setStatus(row[40].substring(1, row[40].length()-1));
-			if (!"".equals(row[44])) {
-				auditBean.setWam(row[44].substring(1, row[44].length()-1));
-			}
-			else {
-				auditBean.setWam("");
-			}
 
-			if(!lastWeekSaturdayDate.before(auditBean.getDateStart())) {
-				auditList.add(auditBean);
+			if(!row[28].equals("")) {
+				System.out.println(row[28]);
+				Date newStartDate = new SimpleDateFormat("yyyy-MM-dd").parse(row[28]);
+				//auditBean.setDateStart(new SimpleDateFormat("yyyy-MM-dd").parse(row[28].substring(1, row[28].length() - 1)));
+				auditBean.setDateStart(newStartDate);
+
+				auditBean.setBroncoId(row[1]);
+				auditBean.setProcessor(row[27]);
+				if (!"".equals(row[32])) {
+					//System.out.println(row[32]);
+					Date newFinalDate = new SimpleDateFormat("yyyy-MM-dd").parse(row[32]);
+					//auditBean.setFinalDate(new SimpleDateFormat("yyyy-MM-dd").parse(row[32].substring(1, row[32].length() - 1)));
+					auditBean.setFinalDate(newFinalDate);
+				}
+				auditBean.setStatus(row[40]);
+				if (!"".equals(row[44])) {
+					auditBean.setWam(row[44]);
+				} else {
+					auditBean.setWam("");
+				}
+				if (!lastWeekSaturdayDate.before(auditBean.getDateStart())) {
+					auditList.add(auditBean);
+				}
 			}
 			
 			// if end of file reached, line would be null

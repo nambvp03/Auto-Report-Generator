@@ -28,7 +28,7 @@ public class FirstTimeFreshmenAuditBean implements Serializable {
 	private Long sr;
 	
 	@Column(name="bronco_id")
-	private Long broncoId;
+	private String broncoId;
 
 	@Temporal(TemporalType.DATE)
 	@Column(name="final_date", nullable = true, updatable = false)
@@ -57,14 +57,14 @@ public class FirstTimeFreshmenAuditBean implements Serializable {
 	/**
 	 * @return the broncoId
 	 */
-	public Long getBroncoId() {
+	public String getBroncoId() {
 		return broncoId;
 	}
 
 	/**
 	 * @param broncoId the broncoId to set
 	 */
-	public void setBroncoId(Long broncoId) {
+	public void setBroncoId(String broncoId) {
 		this.broncoId = broncoId;
 	}
 

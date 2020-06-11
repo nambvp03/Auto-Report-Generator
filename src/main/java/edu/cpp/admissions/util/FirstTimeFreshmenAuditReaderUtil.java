@@ -32,7 +32,7 @@ public class FirstTimeFreshmenAuditReaderUtil {
 		//cal.add( Calendar.DAY_OF_WEEK, -(cal.get(Calendar.DAY_OF_WEEK)+7));
 		Date lastWeekSaturdayDate = cal.getTime();
 		
-		Path pathToFile = Paths.get("C:\\Users\\Dell G5\\Desktop\\FTF.csv");
+		Path pathToFile = Paths.get("../AEP_Docs/OnBase Worksheets FTF_20200608.csv");
 		BufferedReader br = Files.newBufferedReader(pathToFile, StandardCharsets.UTF_8);
 		// skip header line
 		String line = br.readLine();
@@ -40,15 +40,17 @@ public class FirstTimeFreshmenAuditReaderUtil {
 
 		while (line != null) {
 			String[] row = line.split(",(?=(?:[^\"]*\"[^\"]*\")*[^\"]*$)", -1);
-			
-			FirstTimeFreshmenAuditBean auditBean = new FirstTimeFreshmenAuditBean();
-			auditBean.setBroncoId(Long.parseLong(row[1].substring(1, row[1].length()-1)));
-			auditBean.setProcessor(row[91].substring(1, row[91].length()-1));
-			auditBean.setFinalDate(new SimpleDateFormat("yyyy-MM-dd").parse(row[103].substring(1, row[103].length()-1)));
-			auditBean.setStatus(row[102].substring(1, row[102].length()-1));
 
-			if(!lastWeekSaturdayDate.before(auditBean.getFinalDate())) {
-				auditList.add(auditBean);
+			if(!row[103].equals("")) {
+				FirstTimeFreshmenAuditBean auditBean = new FirstTimeFreshmenAuditBean();
+				auditBean.setBroncoId(row[1]);
+				auditBean.setProcessor(row[91]);
+				auditBean.setFinalDate(new SimpleDateFormat("yyyy-MM-dd").parse(row[103]));
+				auditBean.setStatus(row[102]);
+
+				if (!lastWeekSaturdayDate.before(auditBean.getFinalDate())) {
+					auditList.add(auditBean);
+				}
 			}
 			// if end of file reached, line would be null
 			line = br.readLine();
