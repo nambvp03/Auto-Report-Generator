@@ -26,6 +26,10 @@ public class AuditReportController {
 	@Autowired
 	FirstTimeFreshmenAuditReaderUtil firstTimeFreshmenAuditReaderUtil;
 
+
+	public static String udtFileName = "OnBase Worksheets UDT_20200922.csv";
+	public static String ftfFileName = "OnBase Worksheets FTF_20200922.csv";
+
 	@Autowired
 	StatusReportUtil statusReportUtil;
 
@@ -40,10 +44,12 @@ public class AuditReportController {
 		try {
 			upperDivisionTransferAuditReaderUtil.readCsvFileAndStore();
 			response.put("success", "Success msg");
+			response.put("file", udtFileName);
 			response.put("message", "Audit report generated");
 		} catch (Exception e) {
 			e.printStackTrace();
 			response.put("success", false);
+			response.put("file", udtFileName);
 			response.put("message", e.getMessage());
 		}
 		return response;
@@ -55,10 +61,12 @@ public class AuditReportController {
 		try {
 			upperDivisionTransferCompleteAuditReaderUtil.readCsvFileAndStore();
 			response.put("success", "Success msg");
+			response.put("file", udtFileName);
 			response.put("message", "Audit report generated");
 		} catch (Exception e) {
 			e.printStackTrace();
 			response.put("success", false);
+			response.put("file", udtFileName);
 			response.put("message", e.getMessage());
 		}
 		return response;
@@ -70,10 +78,12 @@ public class AuditReportController {
 		try {
 			firstTimeFreshmenAuditReaderUtil.readCsvFileAndStore();
 			response.put("success", "Success msg");
+			response.put("file", ftfFileName);
 			response.put("message", "Audit report generated");
 		} catch (Exception e) {
 			e.printStackTrace();
 			response.put("success", false);
+			response.put("file", ftfFileName);
 			response.put("message", e.getMessage());
 		}
 		return response;
@@ -96,17 +106,19 @@ public class AuditReportController {
 	}
 
 
-	@RequestMapping(value = "/admissions/statusReport", method = RequestMethod.GET)
+		@RequestMapping(value = "/admissions/statusReport", method = RequestMethod.GET)
 	Map<String, Object> generateStatusAuditReport() {
 		Map<String, Object> response = new HashMap<String, Object>();
 		try {
 			//upperDivisionTransferAuditReaderUtil.readCsvFileAndStore();
 			statusReportUtil.readCsvFileAndStore();
 			response.put("success", "Success msg");
+			response.put("file", udtFileName);
 			response.put("message", "Audit report generated");
 		} catch (Exception e) {
 			e.printStackTrace();
 			response.put("success", false);
+			response.put("file", udtFileName);
 			response.put("message", e.getMessage());
 		}
 		return response;

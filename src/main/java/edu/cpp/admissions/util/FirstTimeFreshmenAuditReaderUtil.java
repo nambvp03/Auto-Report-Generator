@@ -11,6 +11,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
+import edu.cpp.admissions.controller.AuditReportController;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -32,7 +33,7 @@ public class FirstTimeFreshmenAuditReaderUtil {
 		//cal.add( Calendar.DAY_OF_WEEK, -(cal.get(Calendar.DAY_OF_WEEK)+7));
 		Date lastWeekSaturdayDate = cal.getTime();
 		
-		Path pathToFile = Paths.get("../AEP_Docs/OnBase Worksheets FTF_20200608.csv");
+		Path pathToFile = Paths.get("../AEP_Docs/"+ AuditReportController.ftfFileName);
 		BufferedReader br = Files.newBufferedReader(pathToFile, StandardCharsets.UTF_8);
 		// skip header line
 		String line = br.readLine();

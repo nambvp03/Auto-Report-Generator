@@ -98,19 +98,21 @@ public class AuditReportEmailUtil {
 		String emailBodyGeneral = getGeneralHtmlEmailBody();
 		status = sendEmail(toArrayGeneral, subjectGeneral, emailBodyGeneral);
 
-//		HashMap<String, String> individualEmailData = generateIndividualEmailDate();
-//		for (Map.Entry<String, String> entry : individualEmailData.entrySet()) {
-//			//if(!excludeFromEmail.contains(entry.getKey())) {
-//				String[] toArrayIndividual = { entry.getKey().toLowerCase() + "@cpp.edu" };
-//				//String[] toArrayIndividual = { "" };
-//				String emailBodyIndividual = entry.getValue();
-//				//String[] toArrayIndividual = { "crhayden@cpp.edu" };
-//			System.out.println(toArrayIndividual[0]);
-//				//toArrayIndividual[0] = "jspatil@cpp.edu";
-//				toArrayIndividual[0] = "crhayden@cpp.edu";
-//				status = sendEmail(toArrayIndividual, subjectGeneral, emailBodyIndividual);
-//			//}
-//		}
+
+
+		HashMap<String, String> individualEmailData = generateIndividualEmailDate();
+		for (Map.Entry<String, String> entry : individualEmailData.entrySet()) {
+			//if(!excludeFromEmail.contains(entry.getKey())) {
+				String[] toArrayIndividual = { entry.getKey().toLowerCase() + "@cpp.edu" };
+				//String[] toArrayIndividual = { "" };
+				String emailBodyIndividual = entry.getValue();
+				//String[] toArrayIndividual = { "crhayden@cpp.edu" };
+			System.out.println(toArrayIndividual[0]);
+				//toArrayIndividual[0] = "jspatil@cpp.edu";
+				//toArrayIndividual[0] = "crhayden@cpp.edu";
+				status = sendEmail(toArrayIndividual, subjectGeneral, emailBodyIndividual);
+			//}
+		}
 
 	}
 
@@ -426,21 +428,21 @@ public class AuditReportEmailUtil {
 						"<table border=\"1px solid #ddd\" cellspacing=\"0\" cellpadding=\"0\" style=\"width:500pt;\"><tr bgcolor=\"#0069c0\"><th colspan=8><b><font color=\"#FFFFFF\">Upper Division Transfer</font></b></th></tr>"
 								+ "<tr bgcolor=\"#6ec6ff\"><th>Status Report</th>");
 				emailBody.append(tableHeaderStatus);
-				emailBody.append("<tr><td><b>"+entry.getKey()+"</b></td><td align=\"center\"><b>")
+				emailBody.append("<tr><td>"+entry.getKey()+"</td><td align=\"center\">")
 						.append(statusType.getAnalystCount())
-						.append("</b></td><td align=\"center\"><b>")
+						.append("</td><td align=\"center\">")
 						.append(statusType.getInitialTCRCount())
-						.append("</b></td><td align=\"center\"><b>")
+						.append("</td><td align=\"center\">")
 						.append(statusType.getFinalTCRCount())
-						.append("</b></td><td align=\"center\"><b>")
+						.append("</td><td align=\"center\">")
 						.append(statusType.getCompletedCount())
-						.append("</b></td><td align=\"center\"><b>")
+						.append("</td><td align=\"center\">")
 						.append(statusType.getDrReviewCount())
-						.append("</b></td><td align=\"center\"><b>")
+						.append("</td><td align=\"center\">")
 						.append(statusType.getReferDirCount())
-						.append("</b></td><td align=\"center\"><b>")
+						.append("</td><td align=\"center\">")
 						.append(statusType.getGrandTotal())
-						.append("</b></td></tr></table><br/><br/>");
+						.append("</td></tr></table><br/><br/>");
 			}
 
 			emailBody.append(footer);
